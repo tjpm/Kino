@@ -1,5 +1,8 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.barzahlung;
 
+import de.hawhh.informatik.sml.kino.werkzeuge.ObservableSubwerkzeug;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,7 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class BarzahlungsWerkzeugUI
+public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
 {
 	private Pane _pane;
 	private Label _preisBeschriftung;
@@ -26,14 +29,14 @@ public class BarzahlungsWerkzeugUI
 	public BarzahlungsWerkzeugUI(int preis)
 	{
 		_pane = erstellePanel(preis);
-		_scene = new Scene(_pane,500,500);
+		_scene = new Scene(_pane,200,200);
 		_primaryStage = new Stage();
 		_primaryStage.setScene(_scene);
 	}
 
 	private Pane erstellePanel(int preis)
 	{
-		Pane pane = new GridPane();
+		GridPane pane = new GridPane();
 
 		
 		_preisBeschriftung = new Label("Preis: ");
@@ -41,12 +44,22 @@ public class BarzahlungsWerkzeugUI
 		_betragBeschriftung = new Label("Betrag: ");
 		_rueckgeldBeschriftung = new Label("Rückgeld: ");
 		_rueckgeld = new Label("XXXX");
-
+		
 		_okButton = new Button("OK");
 		_abbruchButton = new Button("abbrechen");
 
 		_eingabeFeld = new TextField();
-
+		_eingabeFeld.setMaxWidth(75);
+		
+		
+		_okButton.setOnAction(e -> {
+			
+		});
+		
+		_abbruchButton.setOnAction(e -> {
+			
+		});
+		
 		GridPane.setConstraints(_preisBeschriftung, 0, 0);
 		GridPane.setConstraints(_preis, 1, 0);
 		GridPane.setConstraints(_betragBeschriftung, 0, 1);
@@ -54,19 +67,47 @@ public class BarzahlungsWerkzeugUI
 		GridPane.setConstraints(_rueckgeldBeschriftung, 0, 2);
 		GridPane.setConstraints(_rueckgeld, 1, 2);
 		GridPane.setConstraints(_okButton, 0, 5);
-		GridPane.setConstraints(_abbruchButton, 2, 5);
+		GridPane.setConstraints(_abbruchButton, 1, 5);
 
-		//_pane.setPadding(new Insets(10, 10, 10, 10));
-
-		pane.getChildren().addAll(_preisBeschriftung, _preis,
+		pane.setPadding(new Insets(10, 10, 10, 10));
+		pane.setHgap(8);
+		pane.setVgap(10);
+		
+		pane.getChildren().addAll(_eingabeFeld, _preisBeschriftung, _preis,
 				_betragBeschriftung, _rueckgeldBeschriftung, _rueckgeld,
-				_okButton, _abbruchButton,_eingabeFeld);
+				_okButton, _abbruchButton);
 
 		
 		
 		
 		return pane;
 
+	}
+	
+	
+	public TextField getBargeld()
+	{
+		return _eingabeFeld;
+	}
+	
+	public Button getOKButton()
+	{
+		return _okButton;
+	}
+	
+	public Button getAbbruchButton()
+	{
+		return _abbruchButton;
+	}
+	
+	public void setRueckGeld(String rueckGeld)
+	{
+		_rueckgeld.setText(rueckGeld);
+	}
+	
+	public void schließeFenster()
+	{
+		_primaryStage.close();
 	}
 	
 	public void zeigeFenster()

@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 import de.hawhh.informatik.sml.kino.materialien.Kinosaal;
 import de.hawhh.informatik.sml.kino.materialien.Vorstellung;
+import de.hawhh.informatik.sml.kino.werkzeuge.SubwerkzeugObserver;
 import de.hawhh.informatik.sml.kino.werkzeuge.barzahlung.BarzahlungsWerkzeug;
 
 /**
@@ -21,7 +22,7 @@ import de.hawhh.informatik.sml.kino.werkzeuge.barzahlung.BarzahlungsWerkzeug;
  * @author SE2-Team (Uni HH), PM2-Team
  * @version SoSe 2018
  */
-public class PlatzVerkaufsWerkzeug
+public class PlatzVerkaufsWerkzeug implements SubwerkzeugObserver
 {
 	private int _preisFuerAuswahl;
     // Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
@@ -57,23 +58,10 @@ public class PlatzVerkaufsWerkzeug
     private void registriereUIAktionen()
     {
     
-        _ui.getVerkaufenButton().setOnAction(new EventHandler<ActionEvent>()
-                {
-                    @Override
-                    public void handle(ActionEvent ae)
-                    {
-                        verkaufePlaetze(_vorstellung);
-                    }
-                });
+        _ui.getVerkaufenButton().setOnAction(ae-> verkaufenGedrueckt());
 
-        _ui.getStornierenButton().setOnAction(new EventHandler<ActionEvent>()
-                {
-                    @Override
-                    public void handle(ActionEvent ae)
-                    {
-                        stornierePlaetze(_vorstellung);
-                    }
-                });
+        _ui.getStornierenButton().setOnAction(ae-> stornierePlaetze(_vorstellung));
+                
 
         _ui.getPlatzplan().addPlatzSelectionListener(
                 new PlatzSelectionListener()
@@ -85,6 +73,8 @@ public class PlatzVerkaufsWerkzeug
                                 .getAusgewaehltePlaetze());
                     }
                 });
+        
+        
     }
 
     /**
@@ -173,15 +163,22 @@ public class PlatzVerkaufsWerkzeug
     /**
      * Verkauft die ausgewählten Plaetze.
      */
+    
+    private void verkaufenGedrueckt()
+    {
+    	BarzahlungsWerkzeug bz = new BarzahlungsWerkzeug(_preisFuerAuswahl, this);
+    }
+    
     private void verkaufePlaetze(Vorstellung vorstellung)
     {
+        
+        
+        
         Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
-        
-        BarzahlungsWerkzeug bz = new BarzahlungsWerkzeug(100);
-        
-        
-        vorstellung.verkaufePlaetze(plaetze);
+		vorstellung.verkaufePlaetze(plaetze);
         aktualisierePlatzplan();
+        
+        
     }
 
     /**
@@ -193,4 +190,10 @@ public class PlatzVerkaufsWerkzeug
         vorstellung.stornierePlaetze(plaetze);
         aktualisierePlatzplan();
     }
+
+	@Override
+	public void reagiereAufAenderung()
+	{
+		verkaufePlaetze(_vorstellung);
+	}
 }
