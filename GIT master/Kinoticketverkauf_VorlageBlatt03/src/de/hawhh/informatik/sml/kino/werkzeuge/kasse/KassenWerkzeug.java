@@ -68,24 +68,17 @@ public class KassenWerkzeug
      */
     private void erzeugeListenerFuerSubwerkzeuge()
     {
-        _datumAuswaehlWerkzeug.registriereBeobachter(new SubwerkzeugObserver()
-        {
-            @Override
-            public void reagiereAufAenderung()
-            {
-                setzeTagesplanFuerAusgewaehltesDatum();
-            }
-        });
+    	 // <<<<<<<<<<<<<<<<<<<<< Änderung Lamda >>>>>>>>>>>>>>
+    	
+    	
+        _datumAuswaehlWerkzeug.registriereBeobachter(() ->
+                setzeTagesplanFuerAusgewaehltesDatum());
 
+        // <<<<<<<<<<<<<<<<<<<<< Änderung Lamda >>>>>>>>>>>>>>
+        
         _vorstellungAuswaehlWerkzeug
-                .registriereBeobachter(new SubwerkzeugObserver()
-                {
-                    @Override
-                    public void reagiereAufAenderung()
-                    {
-                        setzeAusgewaehlteVorstellung();
-                    }
-                });
+                .registriereBeobachter(() ->
+                        setzeAusgewaehlteVorstellung());
     }
 
     /**

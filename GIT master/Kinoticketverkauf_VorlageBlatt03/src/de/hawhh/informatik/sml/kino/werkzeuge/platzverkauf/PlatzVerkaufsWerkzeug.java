@@ -64,15 +64,9 @@ public class PlatzVerkaufsWerkzeug
 				.setOnAction(ae -> stornierePlaetze(_vorstellung));
 
 		_ui.getPlatzplan()
-				.addPlatzSelectionListener(new PlatzSelectionListener()
-				{
-					@Override
-					public void auswahlGeaendert(PlatzSelectionEvent event)
-					{
+				.addPlatzSelectionListener(event -> 
 						reagiereAufNeuePlatzAuswahl(
-								event.getAusgewaehltePlaetze());
-					}
-				});
+								event.getAusgewaehltePlaetze()));
 
 	}
 
@@ -168,22 +162,16 @@ public class PlatzVerkaufsWerkzeug
 	{
 		BarzahlungsWerkzeug bz = new BarzahlungsWerkzeug(_preisFuerAuswahl);
 
-		bz.registriereBeobachter(new SubwerkzeugObserver()
+		if (bz.getWurdeVerkauft())
 		{
-
-			@Override
-			public void reagiereAufAenderung()
-			{
-				if (bz.getWurdeVerkauft())
-				{
-					verkaufePlaetze(_vorstellung);
-				}
-				else
-				{
-					aktualisierePlatzplan();
-				}
-			}
-		});
+			verkaufePlaetze(_vorstellung);
+		}
+		else
+		{
+			aktualisierePlatzplan();
+		}
+		
+		
 
 	}
 

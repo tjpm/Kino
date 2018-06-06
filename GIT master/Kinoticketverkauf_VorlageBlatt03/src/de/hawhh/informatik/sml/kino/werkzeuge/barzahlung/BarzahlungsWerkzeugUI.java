@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
+public class BarzahlungsWerkzeugUI
 {
 	private Pane _pane;
 	private Label _preisBeschriftung;
@@ -46,6 +46,7 @@ public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
 		_rueckgeld = new Label("XXXX");
 		
 		_okButton = new Button("OK");
+		_okButton.setDisable(true);
 		_abbruchButton = new Button("abbrechen");
 
 		_eingabeFeld = new TextField();
@@ -112,7 +113,7 @@ public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
 	
 	public void zeigeFenster()
 	{
-		_primaryStage.show();
+		_primaryStage.showAndWait();
 	}
 	
 

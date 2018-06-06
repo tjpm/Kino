@@ -1,10 +1,9 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.barzahlung;
 
-import de.hawhh.informatik.sml.kino.werkzeuge.ObservableSubwerkzeug;
-import de.hawhh.informatik.sml.kino.werkzeuge.SubwerkzeugObserver;
+
 import javafx.scene.input.KeyCode;
 
-public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
+public class BarzahlungsWerkzeug 
 {
 	private BarzahlungsWerkzeugUI _ui;
 	private int _preis;
@@ -16,8 +15,9 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
 		_wurdeVekauft = false;
 		_preis = preis;
 		_ui = new BarzahlungsWerkzeugUI(_preis);
-		_ui.zeigeFenster();
+		
 		registriereUIAktionen();
+		_ui.zeigeFenster();
 	}
 
 	private void registriereUIAktionen()
@@ -50,6 +50,14 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
 					{
 						_ui.setRueckGeld(Integer
 								.toString(Integer.parseInt(neuerWert) - _preis));
+						if((Integer.parseInt(neuerWert) - _preis) < 0)
+						{
+							_ui.getOKButton().setDisable(true);
+						}
+						else
+						{
+							_ui.getOKButton().setDisable(false);
+						}
 					}
 					else
 					{
@@ -91,7 +99,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
 		if (genugBargeld())
 		{
 			_wurdeVekauft = true;
-			informiereUeberAenderung();
+
 			_ui.schließeFenster();
 		}
 
@@ -101,7 +109,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
 	{
 	
 		_wurdeVekauft = false;
-		informiereUeberAenderung();
+
 		_ui.schließeFenster();
 		
 

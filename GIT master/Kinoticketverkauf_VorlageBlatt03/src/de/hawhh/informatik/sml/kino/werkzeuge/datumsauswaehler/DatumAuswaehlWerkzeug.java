@@ -124,10 +124,13 @@ public class DatumAuswaehlWerkzeug extends ObservableSubwerkzeug
      */
     private void registriereUIAktionen()
     {
+    	
+// <<<<<<<<<<<<<<<<<<<<< Änderung Lamda >>>>>>>>>>>>>>
+    	
         _zurueckButton.setOnAction(ae-> zurueckButtonWurdeGedrueckt());
                 
                     
- 
+ // <<<<<<<<<<<<<<<<<<<<< Änderung Lamda >>>>>>>>>>>>>>
         
         _weiterButton.setOnAction(ae-> weiterButtonWurdeGedrueckt());
     }
