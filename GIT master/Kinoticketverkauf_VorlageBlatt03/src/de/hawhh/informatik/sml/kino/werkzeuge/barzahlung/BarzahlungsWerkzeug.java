@@ -8,13 +8,15 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
 {
 	private BarzahlungsWerkzeugUI _ui;
 	private int _preis;
+	private boolean _wurdeVekauft;
 
-	public BarzahlungsWerkzeug(int preis, SubwerkzeugObserver beobachter)
+
+	public BarzahlungsWerkzeug(int preis)
 	{
+		_wurdeVekauft = false;
 		_preis = preis;
 		_ui = new BarzahlungsWerkzeugUI(_preis);
 		_ui.zeigeFenster();
-		registriereBeobachter(beobachter);
 		registriereUIAktionen();
 	}
 
@@ -22,13 +24,14 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
 	{
 		_ui.getOKButton().setOnAction(e ->
 		{
+			
 			okButtonWurdeGedrueckt();
 
 		});
 
 		_ui.getAbbruchButton().setOnAction(e ->
 		{
-			_ui.schließeFenster();
+			abbruchButtonWurdeGedrueckt();
 		});
 
 		_ui.getBargeld().setOnKeyPressed(key ->
@@ -78,18 +81,29 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
 
 	}
 
+	public boolean getWurdeVerkauft()
+	{
+		return _wurdeVekauft;
+	}
+	
 	private void okButtonWurdeGedrueckt()
 	{
 		if (genugBargeld())
 		{
+			_wurdeVekauft = true;
 			informiereUeberAenderung();
 			_ui.schließeFenster();
-		}
-		else
-		{
-
 		}
 
 	}
 
+	private void abbruchButtonWurdeGedrueckt()
+	{
+	
+		_wurdeVekauft = false;
+		informiereUeberAenderung();
+		_ui.schließeFenster();
+		
+
+	}
 }

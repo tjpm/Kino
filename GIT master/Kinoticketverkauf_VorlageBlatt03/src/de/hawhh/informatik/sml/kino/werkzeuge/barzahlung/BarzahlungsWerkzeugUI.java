@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
@@ -30,8 +31,7 @@ public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
 	{
 		_pane = erstellePanel(preis);
 		_scene = new Scene(_pane,200,200);
-		_primaryStage = new Stage();
-		_primaryStage.setScene(_scene);
+		stageErstellen();
 	}
 
 	private Pane erstellePanel(int preis)
@@ -52,13 +52,7 @@ public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
 		_eingabeFeld.setMaxWidth(75);
 		
 		
-		_okButton.setOnAction(e -> {
-			
-		});
-		
-		_abbruchButton.setOnAction(e -> {
-			
-		});
+
 		
 		GridPane.setConstraints(_preisBeschriftung, 0, 0);
 		GridPane.setConstraints(_preis, 1, 0);
@@ -84,6 +78,12 @@ public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
 
 	}
 	
+	private void stageErstellen()
+	{
+		_primaryStage = new Stage();
+		_primaryStage.setScene(_scene);
+		_primaryStage.initModality(Modality.APPLICATION_MODAL);
+	}
 	
 	public TextField getBargeld()
 	{
@@ -107,7 +107,7 @@ public class BarzahlungsWerkzeugUI extends ObservableSubwerkzeug
 	
 	public void schließeFenster()
 	{
-		_primaryStage.close();
+		_primaryStage.close();;
 	}
 	
 	public void zeigeFenster()
