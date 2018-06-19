@@ -1,21 +1,20 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.barzahlung;
 
-
+import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import javafx.scene.input.KeyCode;
 
-public class BarzahlungsWerkzeug 
+public class BarzahlungsWerkzeug
 {
 	private BarzahlungsWerkzeugUI _ui;
-	private int _preis;
+	private Geldbetrag _preis;
 	private boolean _wurdeVekauft;
 
-
-	public BarzahlungsWerkzeug(int preis)
+	public BarzahlungsWerkzeug(Geldbetrag preis)
 	{
 		_wurdeVekauft = false;
 		_preis = preis;
 		_ui = new BarzahlungsWerkzeugUI(_preis);
-		
+
 		registriereUIAktionen();
 		_ui.zeigeFenster();
 	}
@@ -24,7 +23,7 @@ public class BarzahlungsWerkzeug
 	{
 		_ui.getOKButton().setOnAction(e ->
 		{
-			
+
 			okButtonWurdeGedrueckt();
 
 		});
@@ -46,22 +45,16 @@ public class BarzahlungsWerkzeug
 				.addListener((observable, alterWert, neuerWert) ->
 				{
 
-					if (Numeric.isNumeric(neuerWert))
+					_ui.setRueckGeld(Geldbetrag.get(neuerWert)
+							.minusGeldbetrag(_preis).toString());
+					if (Geldbetrag.get(neuerWert).minusGeldbetrag(_preis)
+							.istGroesserNull())
 					{
-						_ui.setRueckGeld(Integer
-								.toString(Integer.parseInt(neuerWert) - _preis));
-						if((Integer.parseInt(neuerWert) - _preis) < 0)
-						{
-							_ui.getOKButton().setDisable(true);
-						}
-						else
-						{
-							_ui.getOKButton().setDisable(false);
-						}
+						_ui.getOKButton().setDisable(false);
 					}
 					else
 					{
-						_ui.setRueckGeld("Kein richtiger Betrag");
+						_ui.getOKButton().setDisable(true);
 					}
 
 				});
@@ -71,18 +64,16 @@ public class BarzahlungsWerkzeug
 	private boolean genugBargeld()
 	{
 		boolean result = false;
-		if (Numeric.isNumeric(_ui.getBargeld().getText()))
-		{
-			int barGeld = Integer.parseInt(_ui.getBargeld().getText());
-			if (_preis <= barGeld)
-			{
-				result = true;
-			}
-			else
-			{
-				result = false;
-			}
+		Geldbetrag barGeld = Geldbetrag.get(_ui.getBargeld().getText())
+				.minusGeldbetrag(_preis);
 
+		if (barGeld.getEuroAnteil() >= 0 && barGeld.getCentAnteil() >= 0)
+		{
+			result = true;
+		}
+		else
+		{
+			result = false;
 		}
 
 		return result;
@@ -93,7 +84,7 @@ public class BarzahlungsWerkzeug
 	{
 		return _wurdeVekauft;
 	}
-	
+
 	private void okButtonWurdeGedrueckt()
 	{
 		if (genugBargeld())
@@ -107,11 +98,10 @@ public class BarzahlungsWerkzeug
 
 	private void abbruchButtonWurdeGedrueckt()
 	{
-	
+
 		_wurdeVekauft = false;
 
 		_ui.schließeFenster();
-		
 
 	}
 }

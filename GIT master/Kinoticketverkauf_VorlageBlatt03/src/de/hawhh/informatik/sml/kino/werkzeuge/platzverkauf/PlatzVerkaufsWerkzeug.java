@@ -1,10 +1,12 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
-
+import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 import de.hawhh.informatik.sml.kino.materialien.Kinosaal;
 import de.hawhh.informatik.sml.kino.materialien.Vorstellung;
@@ -24,11 +26,13 @@ import de.hawhh.informatik.sml.kino.werkzeuge.barzahlung.BarzahlungsWerkzeug;
  */
 public class PlatzVerkaufsWerkzeug
 {
-	private int _preisFuerAuswahl;
+	private Geldbetrag _preisFuerAuswahl;
 	// Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
 	private Vorstellung _vorstellung;
 
 	private PlatzVerkaufsWerkzeugUI _ui;
+	
+	private Map<Vorstellung,Set<Platz>> _selektiertePlaetze;
 
 	/**
 	 * Initialisiert das PlatzVerkaufsWerkzeug.
@@ -36,6 +40,7 @@ public class PlatzVerkaufsWerkzeug
 	public PlatzVerkaufsWerkzeug()
 	{
 		_ui = new PlatzVerkaufsWerkzeugUI();
+		_selektiertePlaetze = new HashMap<Vorstellung,Set<Platz>>();
 		registriereUIAktionen();
 		// Am Anfang wird keine Vorstellung angezeigt:
 		setVorstellung(null);
@@ -82,6 +87,18 @@ public class PlatzVerkaufsWerkzeug
 		_ui.getVerkaufenButton().setDisable(!istVerkaufenMoeglich(plaetze));
 		_ui.getStornierenButton().setDisable(!istStornierenMoeglich(plaetze));
 		aktualisierePreisanzeige(plaetze);
+		
+		
+		if(_selektiertePlaetze.keySet().contains(_vorstellung))
+		{
+			_selektiertePlaetze.replace(_vorstellung, plaetze);
+		}
+		else
+		{
+			_selektiertePlaetze.put(_vorstellung, plaetze);	
+		}
+		
+		//'''''''''''''''''''''#################################'''''''''''''''''
 	}
 
 	/**
@@ -92,8 +109,8 @@ public class PlatzVerkaufsWerkzeug
 
 		if (istVerkaufenMoeglich(plaetze))
 		{
-			int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
-			_ui.getPreisLabel().setText("Gesamtpreis: " + preis + " Eurocent");
+			Geldbetrag preis = _vorstellung.getPreisFuerPlaetze(plaetze);
+			_ui.getPreisLabel().setText("Gesamtpreis: " + preis.toString() +" Euro");
 			_preisFuerAuswahl = preis;
 		}
 		else
@@ -146,6 +163,7 @@ public class PlatzVerkaufsWerkzeug
 				{
 					_ui.getPlatzplan().markierePlatzAlsVerkauft(platz);
 				}
+				
 			}
 		}
 		else

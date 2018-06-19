@@ -17,4 +17,18 @@ public class Numeric
 		
 		return true;
 	}
+	public static boolean isNumericDouble(String s)
+	{
+		try
+		{
+			Double.parseDouble(s);
+			
+		} catch (Exception e)
+		{
+			return false;
+		}
+		
+		
+		return true;
+	}
 }

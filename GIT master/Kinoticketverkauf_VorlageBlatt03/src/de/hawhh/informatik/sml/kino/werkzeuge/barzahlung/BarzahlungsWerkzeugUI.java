@@ -1,5 +1,6 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.barzahlung;
 
+import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import de.hawhh.informatik.sml.kino.werkzeuge.ObservableSubwerkzeug;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,20 +28,20 @@ public class BarzahlungsWerkzeugUI
 	private Scene _scene;
 	private Stage _primaryStage;
 
-	public BarzahlungsWerkzeugUI(int preis)
+	public BarzahlungsWerkzeugUI(Geldbetrag preis)
 	{
 		_pane = erstellePanel(preis);
 		_scene = new Scene(_pane,200,200);
 		stageErstellen();
 	}
 
-	private Pane erstellePanel(int preis)
+	private Pane erstellePanel(Geldbetrag preis)
 	{
 		GridPane pane = new GridPane();
 
 		
 		_preisBeschriftung = new Label("Preis: ");
-		_preis = new Label(Integer.toString(preis));
+		_preis = new Label(preis.toString());
 		_betragBeschriftung = new Label("Betrag: ");
 		_rueckgeldBeschriftung = new Label("Rückgeld: ");
 		_rueckgeld = new Label("XXXX");
