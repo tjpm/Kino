@@ -251,5 +251,20 @@ class Platzplan extends GridPane
         _buttons[platz.getReihenNr()][platz.getSitzNr()].setVerkauft(false);
 //        repaint();
     }
+    
+    /**
+     * Markiert den angegebenen Platz als frei.
+     * 
+     * @param platz
+     *            der Platz.
+     * 
+     * @require platz != null
+     */
+    public void markierePlatzAlsAusgewählt(Platz platz)//TJ/TK
+    {
+        assert platz != null : "Vorbedingung verletzt: platz != null";
+        _buttons[platz.getReihenNr()][platz.getSitzNr()].setAusgewaehlt(true);
+//        repaint();
+    }
 
 }

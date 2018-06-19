@@ -47,14 +47,14 @@ public class BarzahlungsWerkzeug
 
 					_ui.setRueckGeld(Geldbetrag.get(neuerWert)
 							.minusGeldbetrag(_preis).toString());
-					if (Geldbetrag.get(neuerWert).minusGeldbetrag(_preis)
+					if (!Geldbetrag.get(neuerWert).minusGeldbetrag(_preis)
 							.istGroesserNull())
 					{
-						_ui.getOKButton().setDisable(false);
+						_ui.getOKButton().setDisable(true);
 					}
 					else
 					{
-						_ui.getOKButton().setDisable(true);
+						_ui.getOKButton().setDisable(false);
 					}
 
 				});

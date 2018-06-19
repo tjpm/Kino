@@ -110,7 +110,7 @@ public final class Geldbetrag
 	{
 		int eurocent = _euroAnteil * 100 + _centAnteil;
 
-		if (eurocent <= 0)
+		if (eurocent < 0)
 			return false;
 
 		return true;

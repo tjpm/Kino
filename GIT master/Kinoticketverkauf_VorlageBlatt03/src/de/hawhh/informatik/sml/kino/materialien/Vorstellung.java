@@ -25,6 +25,7 @@ public class Vorstellung
     private Datum _datum;
     private Geldbetrag _preis;
     private boolean[][] _verkauft;
+    private boolean[][] _ausgewaehlt;//TJ/TK
     private int _anzahlVerkauftePlaetze;
 
     /**
@@ -69,6 +70,8 @@ public class Vorstellung
         _preis = preis;
         _verkauft = new boolean[kinosaal.getAnzahlReihen()][kinosaal
                 .getAnzahlSitzeProReihe()];
+        _ausgewaehlt = new boolean[kinosaal.getAnzahlReihen()][kinosaal
+                                                            .getAnzahlSitzeProReihe()];//TJ/TK
         _anzahlVerkauftePlaetze = 0;
     }
 
@@ -207,6 +210,25 @@ public class Vorstellung
     }
 
     /**
+     * Gibt an, ob ein bestimmter Platz bereits verkauft ist.
+     * 
+     * @param platz der Sitzplatz.
+     * 
+     * @return <code>true</code>, falls der Platz verkauft ist,
+     *         <code>false</code> sonst.
+     * 
+     * @require platz != null
+     * @require hatPlatz(platz)
+     */
+    public boolean istPlatzAusgewählt(Platz platz)//TJ/TK
+    {
+        assert platz != null : "Vorbedingung verletzt: platz != null";
+        assert hatPlatz(platz) : "Vorbedingung verletzt: hatPlatz(platz)";
+
+        return _ausgewaehlt[platz.getReihenNr()][platz.getSitzNr()];
+    }
+    
+    /**
      * Verkauft einen Platz.
      * 
      * @param platz der Sitzplatz.
@@ -225,6 +247,27 @@ public class Vorstellung
 
         _verkauft[platz.getReihenNr()][platz.getSitzNr()] = true;
         _anzahlVerkauftePlaetze++;
+    }
+    
+    /**
+     * Verkauft einen Platz.
+     * 
+     * @param platz der Sitzplatz.
+     * 
+     * @require platz != null
+     * @require hatPlatz(platz)
+     * @require !istPlatzVerkauft(reihe, sitz)
+     * 
+     * @ensure istPlatzVerkauft(reihe, sitz)
+     */
+    public void makierePlatz(Platz platz) //TJ/TK
+    {
+        assert platz != null : "Vorbedingung verletzt: platz != null";
+        assert hatPlatz(platz) : "Vorbedingung verletzt: hatPlatz(platz)";
+        //assert !istPlatzVerkauft(platz) : "Vorbedingung verletzt: !istPlatzVerkauft(platz)";
+
+        _ausgewaehlt[platz.getReihenNr()][platz.getSitzNr()] = true;
+        
     }
 
     /**
@@ -274,6 +317,27 @@ public class Vorstellung
         for (Platz platz : plaetze)
         {
             verkaufePlatz(platz);
+        }
+    }
+    
+    /**
+     * Verkauft die gegebenen Plätze.
+     * 
+     * @require plaetze != null
+     * @require hatPlaetze(plaetze)
+     * @require sindVerkaufbar(plaetze)
+     * 
+     * @ensure alle angegebenen Plätze sind verkauft
+     */
+    public void makierePlaetze(Set<Platz> plaetze)//TJ/TK
+    {
+        assert plaetze != null : "Vorbedingung verletzt: plaetze != null";
+        assert hatPlaetze(plaetze) : "Vorbedingung verletzt: hatPlaetze(plaetze)";
+        //assert sindVerkaufbar(plaetze) : "Vorbedingung verletzt: sindVerkaufbar(plaetze)";
+
+        for (Platz platz : plaetze)
+        {
+            makierePlatz(platz);
         }
     }
 

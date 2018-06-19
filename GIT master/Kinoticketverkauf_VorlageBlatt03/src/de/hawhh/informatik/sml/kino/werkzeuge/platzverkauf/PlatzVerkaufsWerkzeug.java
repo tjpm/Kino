@@ -32,7 +32,6 @@ public class PlatzVerkaufsWerkzeug
 
 	private PlatzVerkaufsWerkzeugUI _ui;
 	
-	private Map<Vorstellung,Set<Platz>> _selektiertePlaetze;
 
 	/**
 	 * Initialisiert das PlatzVerkaufsWerkzeug.
@@ -40,7 +39,6 @@ public class PlatzVerkaufsWerkzeug
 	public PlatzVerkaufsWerkzeug()
 	{
 		_ui = new PlatzVerkaufsWerkzeugUI();
-		_selektiertePlaetze = new HashMap<Vorstellung,Set<Platz>>();
 		registriereUIAktionen();
 		// Am Anfang wird keine Vorstellung angezeigt:
 		setVorstellung(null);
@@ -86,19 +84,11 @@ public class PlatzVerkaufsWerkzeug
 	{
 		_ui.getVerkaufenButton().setDisable(!istVerkaufenMoeglich(plaetze));
 		_ui.getStornierenButton().setDisable(!istStornierenMoeglich(plaetze));
+		//
 		aktualisierePreisanzeige(plaetze);
+		if(_vorstellung != null && plaetze != null)
+			makierePlaetze(_vorstellung);
 		
-		
-		if(_selektiertePlaetze.keySet().contains(_vorstellung))
-		{
-			_selektiertePlaetze.replace(_vorstellung, plaetze);
-		}
-		else
-		{
-			_selektiertePlaetze.put(_vorstellung, plaetze);	
-		}
-		
-		//'''''''''''''''''''''#################################'''''''''''''''''
 	}
 
 	/**
@@ -163,6 +153,10 @@ public class PlatzVerkaufsWerkzeug
 				{
 					_ui.getPlatzplan().markierePlatzAlsVerkauft(platz);
 				}
+				else if (_vorstellung.istPlatzAusgewählt(platz))//TJ/TK
+				{
+					_ui.getPlatzplan().markierePlatzAlsAusgewählt(platz);
+				}
 				
 			}
 		}
@@ -199,6 +193,14 @@ public class PlatzVerkaufsWerkzeug
 		Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
 		vorstellung.verkaufePlaetze(plaetze);
 		aktualisierePlatzplan();
+
+	}
+	
+	private void makierePlaetze(Vorstellung vorstellung) //TJ/TK
+	{
+		Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
+		vorstellung.makierePlaetze(plaetze);
+		//aktualisierePlatzplan();
 
 	}
 
