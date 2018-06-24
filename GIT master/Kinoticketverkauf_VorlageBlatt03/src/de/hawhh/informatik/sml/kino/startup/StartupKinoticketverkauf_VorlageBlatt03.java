@@ -65,7 +65,7 @@ public class StartupKinoticketverkauf_VorlageBlatt03 extends Application
 
         final Vorstellung[] vorstellungen = {
                 // Heute
-                new Vorstellung(saele[0], filme[2], nachmittag, abend, d1, Geldbetrag.get(500)),
+                new Vorstellung(saele[0], filme[2], nachmittag, abend, d1, Geldbetrag.get(500)),// TODO Geldbetrag
                 new Vorstellung(saele[0], filme[0], abend, spaet, d1, Geldbetrag.get(700)),
                 new Vorstellung(saele[0], filme[0], spaet, nacht, d1, Geldbetrag.get(700)),
 

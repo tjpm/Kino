@@ -28,14 +28,14 @@ public class BarzahlungsWerkzeugUI
 	private Scene _scene;
 	private Stage _primaryStage;
 
-	public BarzahlungsWerkzeugUI(Geldbetrag preis)
+	public BarzahlungsWerkzeugUI(Geldbetrag preis)// TODO Geldbetrag
 	{
 		_pane = erstellePanel(preis);
 		_scene = new Scene(_pane,200,200);
 		stageErstellen();
 	}
 
-	private Pane erstellePanel(Geldbetrag preis)
+	private Pane erstellePanel(Geldbetrag preis)// TODO Geldbetrag
 	{
 		GridPane pane = new GridPane();
 

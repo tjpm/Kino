@@ -26,7 +26,7 @@ import de.hawhh.informatik.sml.kino.werkzeuge.barzahlung.BarzahlungsWerkzeug;
  */
 public class PlatzVerkaufsWerkzeug
 {
-	private Geldbetrag _preisFuerAuswahl;
+	private Geldbetrag _preisFuerAuswahl;// TODO Geldbetrag
 	// Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
 	private Vorstellung _vorstellung;
 
@@ -99,7 +99,7 @@ public class PlatzVerkaufsWerkzeug
 
 		if (istVerkaufenMoeglich(plaetze))
 		{
-			Geldbetrag preis = _vorstellung.getPreisFuerPlaetze(plaetze);
+			Geldbetrag preis = _vorstellung.getPreisFuerPlaetze(plaetze);// TODO Geldbetrag
 			_ui.getPreisLabel().setText("Gesamtpreis: " + preis.toString() +" Euro");
 			_preisFuerAuswahl = preis;
 		}
@@ -156,6 +156,8 @@ public class PlatzVerkaufsWerkzeug
 				else if (_vorstellung.istPlatzAusgewählt(platz))//TJ/TK
 				{
 					_ui.getPlatzplan().markierePlatzAlsAusgewählt(platz);
+					aktualisierePreisanzeige(_ui.getPlatzplan().getAusgewaehltePlaetze());
+					reagiereAufNeuePlatzAuswahl(_ui.getPlatzplan().getAusgewaehltePlaetze());
 				}
 				
 			}
@@ -200,7 +202,6 @@ public class PlatzVerkaufsWerkzeug
 	{
 		Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
 		vorstellung.makierePlaetze(plaetze);
-		//aktualisierePlatzplan();
 
 	}
 
